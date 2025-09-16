@@ -29,7 +29,6 @@ export class UserService implements IUserService {
     }
 
     async getAll(): Promise<IUserModel[]> {
-        console.log("Service");
         try {
             return Promise.resolve([
                 {
