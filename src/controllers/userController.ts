@@ -5,24 +5,25 @@ import {
 } from "../services/userService";
 
 export class UserController {
-    userService: IUserService;
+    private userService: IUserService;
 
     constructor() {
         this.userService = new UserService();
     }
 
-    async getAllUsers(
+    getAllUsers = async (
         request: FastifyRequest,
         reply: FastifyReply
-    ) {
+    ) => {
         try {
-            const data =
-                await this.userService.getAllUsers();
+            const data = await this.userService.getAll();
 
             reply.send({ data });
         } catch (err) {
             console.log(err);
-            reply.send({ error: "Internal Server Error" });
+            reply
+                .status(500)
+                .send({ error: "Internal Server Error" });
         }
-    }
+    };
 }

@@ -2,39 +2,56 @@ import { Database } from "../data";
 import { IUserModel } from "../models/userModel";
 
 export interface IUserService {
-    getAllUsers(): Promise<IUserModel[]>;
-    getUserById(id: string): Promise<IUserModel>;
-    createUser(
+    getAll(): Promise<IUserModel[]>;
+    getById(id: string): Promise<IUserModel>;
+    create(
         name: string,
         email: string,
         age: number
     ): Promise<IUserModel>;
-    updateUser(
+    update(
         id: string,
         name: string,
         email: string,
         age: number
     ): Promise<IUserModel>;
-    deleteUser(id: string): Promise<boolean>;
-    userExists(email: string): Promise<boolean>;
+    delete(id: string): Promise<boolean>;
+    exists(email: string): Promise<boolean>;
 }
 
 export class UserService implements IUserService {
     private db;
+    private data: IUserModel[];
 
     constructor() {
+        this.data = [];
         this.db = new Database();
     }
 
-    getAllUsers(): Promise<IUserModel[]> {
+    async getAll(): Promise<IUserModel[]> {
+        console.log("Service");
+        try {
+            return Promise.resolve([
+                {
+                    name: "string",
+                    id: "string",
+                    email: "string",
+                    age: 99,
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                },
+            ]);
+        } catch (err) {
+            console.log(err);
+            throw new Error("Failed to load data.");
+        }
+    }
+
+    getById(id: string): Promise<IUserModel> {
         throw new Error("Method not implemented.");
     }
 
-    getUserById(id: string): Promise<IUserModel> {
-        throw new Error("Method not implemented.");
-    }
-
-    createUser(
+    create(
         name: string,
         email: string,
         age: number
@@ -42,7 +59,7 @@ export class UserService implements IUserService {
         throw new Error("Method not implemented.");
     }
 
-    updateUser(
+    update(
         id: string,
         name: string,
         email: string,
@@ -51,11 +68,11 @@ export class UserService implements IUserService {
         throw new Error("Method not implemented.");
     }
 
-    deleteUser(id: string): Promise<boolean> {
+    delete(id: string): Promise<boolean> {
         throw new Error("Method not implemented.");
     }
 
-    userExists(email: string): Promise<boolean> {
+    exists(email: string): Promise<boolean> {
         throw new Error("Method not implemented.");
     }
 }
