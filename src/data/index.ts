@@ -22,7 +22,7 @@ const dbConfig: DatabaseConfig = {
     connectionTimeoutMillis: 2000,
 };
 
-class Database {
+export class Database {
     private pool: Pool;
 
     constructor() {
@@ -122,5 +122,3 @@ class Database {
         }
     }
 }
-
-export const db = new Database();

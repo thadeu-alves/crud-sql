@@ -1,11 +1,14 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { IUserService } from "../services/userService";
+import {
+    IUserService,
+    UserService,
+} from "../services/userService";
 
 export class UserController {
     userService: IUserService;
 
-    constructor(userService: IUserService) {
-        this.userService = userService;
+    constructor() {
+        this.userService = new UserService();
     }
 
     async getAllUsers(
