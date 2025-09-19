@@ -7,26 +7,29 @@ import {
 } from "vitest";
 import { IUserService, UserService } from "./userService";
 import { IUserModel } from "../models/userModel";
+import { Database } from "../data";
 
 describe("User Service Test", () => {
     let userService: IUserService;
+    const mock: IUserModel[] = [
+        {
+            name: "string",
+            id: "string",
+            email: "string",
+            age: 99,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        },
+    ];
 
     beforeEach(() => {
-        userService = new UserService();
+        const db = new Database();
+        userService = new UserService(db);
+        userService.setData(mock);
     });
 
     it("should return all users", async () => {
         const result = await userService.getAll();
-        const mock: IUserModel[] = [
-            {
-                name: "string",
-                id: "string",
-                email: "string",
-                age: 99,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-            },
-        ];
 
         expect(result).toBeInstanceOf(Array);
         expect(result.length).toBeGreaterThan(0);

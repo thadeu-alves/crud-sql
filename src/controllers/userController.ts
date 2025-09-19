@@ -7,8 +7,8 @@ import {
 export class UserController {
     private userService: IUserService;
 
-    constructor() {
-        this.userService = new UserService();
+    constructor(userService: IUserService) {
+        this.userService = userService;
     }
 
     getAllUsers = async (

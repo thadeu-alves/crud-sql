@@ -2,6 +2,7 @@ import { Database } from "../data";
 import { IUserModel } from "../models/userModel";
 
 export interface IUserService {
+    setData(data: IUserModel[]): void;
     getAll(): Promise<IUserModel[]>;
     getById(id: string): Promise<IUserModel>;
     create(
@@ -23,23 +24,17 @@ export class UserService implements IUserService {
     private db;
     private data: IUserModel[];
 
-    constructor() {
+    constructor(db: Database) {
         this.data = [];
-        this.db = new Database();
+        this.db = db;
+    }
+    setData(data: IUserModel[]): void {
+        this.data = data;
     }
 
     async getAll(): Promise<IUserModel[]> {
         try {
-            return Promise.resolve([
-                {
-                    name: "string",
-                    id: "string",
-                    email: "string",
-                    age: 99,
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
-                },
-            ]);
+            return Promise.resolve(this.data);
         } catch (err) {
             console.log(err);
             throw new Error("Failed to load data.");
