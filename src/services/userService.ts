@@ -28,6 +28,7 @@ export class UserService implements IUserService {
         this.data = [];
         this.db = db;
     }
+
     setData(data: IUserModel[]): void {
         this.data = data;
     }
@@ -41,8 +42,25 @@ export class UserService implements IUserService {
         }
     }
 
-    getById(id: string): Promise<IUserModel> {
-        throw new Error("Method not implemented.");
+    async getById(id: string): Promise<IUserModel> {
+        try {
+            if (!this.data) {
+                this.data = await this.getAll();
+            }
+
+            const user = this.data.find(
+                (user) => user.id == id
+            );
+
+            if (!user) {
+                throw new Error("User not finded.");
+            }
+
+            return Promise.resolve(user || null);
+        } catch (err) {
+            console.log(err);
+            throw new Error("Failed to get User.");
+        }
     }
 
     create(

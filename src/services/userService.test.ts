@@ -13,9 +13,9 @@ describe("User Service Test", () => {
     let userService: IUserService;
     const mock: IUserModel[] = [
         {
-            name: "string",
-            id: "string",
-            email: "string",
+            name: "name",
+            id: "id",
+            email: "email",
             age: 99,
             createdAt: new Date(),
             updatedAt: new Date(),
@@ -26,6 +26,8 @@ describe("User Service Test", () => {
         const db = new Database();
         userService = new UserService(db);
         userService.setData(mock);
+
+        vi.spyOn(userService, "getAll");
     });
 
     it("should return all users", async () => {
@@ -54,5 +56,22 @@ describe("User Service Test", () => {
             expect(user.createdAt).toBeInstanceOf(Date);
             expect(user.updatedAt).toBeInstanceOf(Date);
         });
+    });
+
+    it("should return user correct", async () => {
+        const result = await userService.getById("id");
+
+        expect(result).toEqual(mock[0]);
+        expect(userService.getAll).not.toHaveBeenCalled();
+        expect(result?.id).toBeTypeOf("string");
+        expect(result?.name).toBeTypeOf("string");
+        expect(result?.email).toBeTypeOf("string");
+        expect(result?.age).toBeTypeOf("number");
+        expect(result?.createdAt).toBeInstanceOf(Date);
+        expect(result?.updatedAt).toBeInstanceOf(Date);
+
+        await expect(
+            userService.getById("0")
+        ).rejects.toThrow("Failed to get User.");
     });
 });
